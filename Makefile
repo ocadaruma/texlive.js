@@ -1,4 +1,4 @@
-SOURCE_DIR=pdftex-mirror
+SOURCE_DIR=pdftex-mirror/source
 PDFTEX_REPO=https://github.com/ocadaruma/pdftex.git
 PDFTEX_BRANCH=texlive.js
 BASE_TEXLIVE_URL=http://mirrors.ctan.org/macros/latex/base.zip
