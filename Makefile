@@ -1,4 +1,5 @@
-SOURCE_DIR=pdftex-mirror/source
+REPO_DIR=pdftex-mirror
+SOURCE_DIR=${REPO_DIR}/source
 PDFTEX_REPO=https://github.com/ocadaruma/pdftex.git
 PDFTEX_BRANCH=texlive.js
 BASE_TEXLIVE_URL=http://mirrors.ctan.org/macros/latex/base.zip
@@ -8,7 +9,7 @@ all: pdftex-worker.js create_latex_format texlive.lst
 #all: unpack_pdftex create_binary_pdftex configure get_texlive unpack_texlive create_latex_format compile_bc compile_js
 
 pdftex-mirror:
-	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${SOURCE_DIR}
+	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${REPO_DIR}
 
 configure: pdftex-mirror
 	-@cd ${SOURCE_DIR} && \
@@ -24,7 +25,7 @@ texlive.lst: ./texlive
 
 ./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/pdftex: pdftex-mirror
 	mkdir -p binary
-	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${SOURCE_DIR}
+	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${REPO_DIR}
 	cd binary && cd ${SOURCE_DIR} && ./build-pdftex.sh -C \
 		--disable-all-pkgs \
 		--enable-pdftex \
