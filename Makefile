@@ -25,7 +25,7 @@ texlive.lst: ./texlive
 
 ./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/pdftex: pdftex-mirror
 	mkdir -p binary
-	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${REPO_DIR}
+	cd binary && git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${REPO_DIR}
 	cd binary && cd ${SOURCE_DIR} && ./build-pdftex.sh -C \
 		--disable-all-pkgs \
 		--enable-pdftex \
