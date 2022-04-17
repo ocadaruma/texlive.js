@@ -65,6 +65,7 @@ create_latex_format: ./latex_format/base.zip ./binary/${SOURCE_DIR}/build-pdftex
 
 compile_bc:	 ./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/pdftex configure ./texlive
 	find texlive -mindepth 2 -name texmf.cnf -exec cp {} ./${SOURCE_DIR}/src/texk/kpathsea \;
+	mkdir -p ${SOURCE_DIR}/build-pdftex/texk/web2c/web2c
 	cp ./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/web2c/{fixwrites,web2c,splitup} ${SOURCE_DIR}/build-pdftex/texk/web2c/web2c/
 	chmod +x ${SOURCE_DIR}/build-pdftex/texk/web2c/web2c/fixwrites
 	chmod +x ${SOURCE_DIR}/build-pdftex/texk/web2c/web2c/web2c
