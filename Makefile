@@ -1,20 +1,18 @@
-SOURCE_DIR=pdftex-1.40.11
-PDFTEX_URL=http://mirrors.ctan.org/obsolete/systems/pdftex/pdftex-1.40.11.zip
+SOURCE_DIR=pdftex-mirror
+PDFTEX_REPO=https://github.com/ocadaruma/pdftex.git
+PDFTEX_BRANCH=texlive.js
 BASE_TEXLIVE_URL=http://mirrors.ctan.org/macros/latex/base.zip
 #BASE_TEXLIVE_URL=ftp://ftp.ctan.org/pub/tex/macros/latex/base.zip
 SHELL=bash
 all: pdftex-worker.js create_latex_format texlive.lst
 #all: unpack_pdftex create_binary_pdftex configure get_texlive unpack_texlive create_latex_format compile_bc compile_js
 
-pdftex-1.40.11.zip:
-	wget $(PDFTEX_URL)
+pdftex-mirror:
+	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${SOURCE_DIR}
 
-unpack_pdftex: pdftex-1.40.11.zip
-	unzip -o pdftex-1.40.11.zip
-
-configure: unpack_pdftex
+configure: pdftex-mirror
 	-@cd ${SOURCE_DIR} && \
-	EMCONFIGURE_JS=0 emconfigure ./build-pdftex.sh -C \
+	EMCONFIGURE_JS=0 emconfigure ./configure-pdftex.sh -C \
 		--disable-all-pkgs \
 		--enable-pdftex \
 		--enable-static \
@@ -24,10 +22,9 @@ texlive.lst: ./texlive
 	find texlive -type d -exec echo {}/. \; | sed 's/^texlive//g' >texlive.lst
 	find texlive -type f | sed 's/^texlive//g' >>texlive.lst
 
-./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/pdftex: pdftex-1.40.11.zip
+./binary/${SOURCE_DIR}/build-pdftex/texk/web2c/pdftex: pdftex-mirror
 	mkdir -p binary
-	cd binary && wget $(PDFTEX_URL)
-	cd binary && unzip -o pdftex-1.40.11.zip
+	git clone ${PDFTEX_REPO} --branch ${PDFTEX_BRANCH} --depth 1 ${SOURCE_DIR}
 	cd binary && cd ${SOURCE_DIR} && ./build-pdftex.sh -C \
 		--disable-all-pkgs \
 		--enable-pdftex \
@@ -99,7 +96,7 @@ clean:
 	rm -f latex.fmt
 	rm -f pdftex.bc
 	rm -f texlive.lst
-	rm -rf ${SOURCE_DIR} pdftex-1.40.11.zip
+	rm -rf ${SOURCE_DIR}
 	rm -rf binary
 	rm -rf latex_format
 	rm -rf texlive
@@ -382,6 +379,7 @@ Some influential environment variables:
 	CXXFLAGS    C++ compiler flags
 	CXXCPP      C++ preprocessor
 
+Use these variables to override the choices made by 'configure' or to help
 Use these variables to override the choices made by 'configure' or to help
 it to find libraries and programs with nonstandard names/locations.
 endif
