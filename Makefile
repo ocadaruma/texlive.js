@@ -19,6 +19,8 @@ configure: pdftex-mirror
 		--enable-static \
 		CC=emcc CFLAGS=-DELIDE_CODE
 
+	make
+
 texlive.lst: ./texlive
 	find texlive -type d -exec echo {}/. \; | sed 's/^texlive//g' >texlive.lst
 	find texlive -type f | sed 's/^texlive//g' >>texlive.lst
